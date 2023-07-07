@@ -25,7 +25,6 @@ import org.jboss.resteasy.reactive.server.ServerRequestFilter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.quarkus.scheduler.Scheduled;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -45,6 +44,9 @@ public class AuthFilter {
 	
 	@Inject
 	UserService userService;
+	
+	
+	long maintenanceTime=0;
 
 
 	private PublicKey publicKey;
@@ -58,6 +60,7 @@ public class AuthFilter {
 		if (requestContext.getUriInfo().getPath().startsWith("/auth"))
 			return;
 		
+		maintenence();
 		
 		// Read and validate auth cookies.
 		var cookies = requestContext.getCookies();
@@ -108,25 +111,6 @@ public class AuthFilter {
 		userService.setLoggedIn(false);	
 	}
 
-
-	@PostConstruct
-	public void refreshCerts() {
-		executor.execute(() -> {
-			var _certs = authService.certs();
-			for (Cert c : _certs.get("keys"))
-				if (c.use().equals("sig")) {
-					try {
-						publicKey = CertificateFactory.getInstance("X.509")
-								.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(c.x5c()[0])))
-								.getPublicKey();
-					} catch (CertificateException e) {
-						e.printStackTrace();
-					}
-
-				}
-		});
-	}
-
 	public boolean verifySig(String headerEncoded, String payloadEncoded, String signatureEncoded) {
 		// Dont verify, if haven't retrieved the public key (yet).
 		if (publicKey == null)
@@ -150,14 +134,42 @@ public class AuthFilter {
 		expiredSessions.put(session, new Date());
 	}
 
-	@Scheduled(every = "2m")
-	public void cleanUpLogoutSessions() {
-		Iterator<Entry<String,Date>>  iter = expiredSessions.entrySet().iterator();
-		while (iter.hasNext()) {
-			var entry = iter.next();
-				if ((System.currentTimeMillis() - entry.getValue().getTime())>(1800*1000)) {
-					iter.remove();
+	
+	public synchronized void maintenence() {
+		
+		if (System.currentTimeMillis()- maintenanceTime<30000) return;   // Do every 30 seconds.
+		maintenanceTime=System.currentTimeMillis();
+		
+		System.out.println("submitting maintenence");
+
+		executor.execute(() -> {
+			
+			System.out.println("doing maintenence");
+			
+			Iterator<Entry<String,Date>>  iter = expiredSessions.entrySet().iterator();
+			while (iter.hasNext()) {
+				var entry = iter.next();
+					if ((System.currentTimeMillis() - entry.getValue().getTime())>(1800*1000)) {
+						iter.remove();
+					}
+			}
+			
+			if (publicKey!=null) return;
+			
+			System.out.println("fetching public key");
+			var _certs = authService.certs();
+			for (Cert c : _certs.get("keys"))
+				if (c.use().equals("sig")) {
+					try {
+						System.out.println("loaded public key");
+						publicKey = CertificateFactory.getInstance("X.509")
+								.generateCertificate(new ByteArrayInputStream(Base64.getDecoder().decode(c.x5c()[0])))
+								.getPublicKey();
+					} catch (CertificateException e) {
+						e.printStackTrace();
+					}
+
 				}
-		}
+		});
 	}
 }
