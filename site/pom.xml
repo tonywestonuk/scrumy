@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-websockets</artifactId>
+      <artifactId>quarkus-amazon-lambda-http</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
