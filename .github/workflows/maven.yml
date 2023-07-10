@@ -37,4 +37,4 @@ jobs:
         TARGET: "/tmp/scrumy"        
         SCRIPT_AFTER: |
             rsync -r /tmp/scrumy/site/target/quarkus-app/* /usr/local/scrumy
-            service scrumy --full-restart
+            sudo systemctl restart scrumy
