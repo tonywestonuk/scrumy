@@ -33,7 +33,7 @@ jobs:
         ARGS: "-a"
         SOURCE: "."
         REMOTE_HOST: ${{ secrets.SERVER_IP }}
-        REMOTE_USER: "tony"
+        REMOTE_USER: "scrumy"
         TARGET: "/tmp/scrumy"        
         SCRIPT_AFTER: |
             rsync -r /tmp/scrumy/target/quarkus-app/* /usr/local/scrumy
