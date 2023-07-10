@@ -23,7 +23,7 @@ jobs:
         java-version: '17'
         cache: 'maven'
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file site/pom.xml
         
     - name: Deploy with rsync
       uses: easingthemes/ssh-deploy@main
