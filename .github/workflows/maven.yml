@@ -29,6 +29,7 @@ jobs:
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_PORT: "19" 
         ARGS: "-a"
         SOURCE: "."
         REMOTE_HOST: ${{ secrets.SERVER_IP }}
