@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<script>
+			
+			
+		account_login = function() {
+		let redirectURL = encodeURIComponent(location.href+'auth');		
+		location.href = `https://auth.scrumy.net/realms/scrumy/protocol/openid-connect/auth?client_id=scrumy&redirect_uri=$\{redirectURL}&scope=openid&response_type=code`;
+	}
+	
+		account_logout = function() {
+		let redirectURL = encodeURIComponent(location.href+'auth/logout');		
+		location.href = `https://auth.scrumy.net/realms/scrumy/protocol/openid-connect/logout?post_logout_redirect_uri=$\{redirectURL}&client_id=scrumy`;
+	}
+		</script>
+		
+	</head>
+	<body>
+		<img src="images/scrumy.jpg"><br>
+		
+		<nav>
+			{#if cdi:user.loggedIn}
+						<button onclick="account_logout();" role="button">Logout {cdi:user.credentials.preferred_username} </button>
+					{#else}
+						<button  onclick="account_login();" role="button">Login</button>
+					{/if}
+		</nav>
+		
+	{#insert/}	
+					
+	</body>
+</html>

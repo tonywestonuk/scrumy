@@ -22,6 +22,8 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
         cache: 'maven'
+    - name: Build dartsass plugin
+      run: mvn -B install --file dartsass-maven-plugin/pom.xml
     - name: Build with Maven
       run: mvn -B package --file site/pom.xml
         
