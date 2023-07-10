@@ -1,3 +1,21 @@
 {#include layout}
-	test
+
+<div class="header">
+	{#if cdi:user.loggedIn}
+	Type something! Shift-enter to submit.<br>
+	<textarea maxlength="300" rows="4" placeholder="Type something! Shift-enter to submit." autofocus></textarea>
+	<script type="application/javascript" src="js/postmsg.js"></script>
+
+	{/if}
+</div>
+
+<div class="messages">
+{#for message in cdi:messageService.messages}
+At {message.date}, {message.username} posted: <br>
+<i>{message.msg}</i> <br><br>
+
+{/for}
+</div>
+
+
 {/include}

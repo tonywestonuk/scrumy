@@ -14,18 +14,22 @@
 	}
 		</script>
 		
+		<script defer type="application/javascript" src="js/refreshmessages.js"></script>
+		
+		<link rel="stylesheet" href="/css/styles.css">
 	</head>
 	<body>
-		<img src="images/scrumy.jpg"><br>
-		
 		<nav>
-			{#if cdi:user.loggedIn}
+					<img src="images/scrumy.png"><br>
+
+				{#if cdi:user.loggedIn}
 						<button onclick="account_logout();" role="button">Logout {cdi:user.credentials.preferred_username} </button>
 					{#else}
 						<button  onclick="account_login();" role="button">Login</button>
 					{/if}
 		</nav>
 		
+
 	{#insert/}	
 					
 	</body>

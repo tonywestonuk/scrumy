@@ -1,4 +1,26 @@
-body {
-	color: green;
-	
+body {}
+
+nav {
+	background-color: #c0ffc0;
+	display: flex;
+	justify-content: space-between;
+
+	img {
+		max-height: 50px;
+	}
+
+	button {
+		margin: 10px;
+	}
+}
+
+div.header  {
+	width: calc(100% - 20px);
+	margin: 10px;
+		
+	textarea {
+	padding: 4px;
+	width:100%;
+resize: none;
+}
 }
