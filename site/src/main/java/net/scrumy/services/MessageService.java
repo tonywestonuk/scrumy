@@ -28,7 +28,7 @@ public class MessageService {
 	
 	
 	public List<Msg> getMessages(){
-		System.out.println("poo" + messages.size());
+	//	System.out.println("poo" + messages.size());
 		return messages;
 	}
 }
