@@ -7,11 +7,9 @@
 	<packaging>maven-plugin</packaging>
 	<name>Dart Sass Maven Plugin</name>
 	<properties>
-				<compiler-plugin.version>3.11.0</compiler-plugin.version>
-
+		<compiler-plugin.version>3.11.0</compiler-plugin.version>
 		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -35,17 +33,13 @@
 			<version>4.2.3</version>
 		</dependency>
 	</dependencies>
-		<build>
-	<plugins>
-		<plugin>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
-				<configuration>
-					<compilerArgs>
-						<arg>-parameters</arg>
-					</compilerArgs>
-				</configuration>
+				<version>3.11.0</version>
 			</plugin>
-			</plugins>
-			</build>
+		</plugins>
+	</build>
 </project>
