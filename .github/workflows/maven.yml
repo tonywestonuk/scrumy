@@ -36,5 +36,5 @@ jobs:
         REMOTE_USER: "scrumy"
         TARGET: "/tmp/scrumy"        
         SCRIPT_AFTER: |
-            rsync -r /tmp/scrumy/target/quarkus-app/* /usr/local/scrumy
-            service backgammon --full-restart
+            rsync -r /tmp/scrumy/site/target/quarkus-app/* /usr/local/scrumy
+            service scrumy --full-restart
